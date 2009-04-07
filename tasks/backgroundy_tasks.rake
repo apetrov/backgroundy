@@ -1,9 +1,6 @@
-require "config/environment.rb"
-
-
 namespace :backgroundy do
   desc "Start Backgroundy service"
-  task :start do
+  task :start=>[:environment] do
     if(File.exist?(Backgroundy.instance.config.pid))
       raise "Error: Backgroundy is already running"
     else  
@@ -14,7 +11,7 @@ namespace :backgroundy do
     end
   end
   
-  task :stop do
+  task :stop=>[:environment] do
     if(File.exist?(Backgroundy.instance.config.pid))
       pid = File.open(Backgroundy.instance.config.pid){|f|f.read}.to_i
       Process.kill("HUP",pid)
